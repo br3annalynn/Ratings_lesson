@@ -1,0 +1,68 @@
+body {
+    background-color: #2219b2;
+    color: #ffffff;
+}
+
+form.signin {
+    width: 330px;
+    margin: 50px auto;
+}
+
+form.signin input.form-control{
+    margin-bottom: 5px;
+}
+
+form.signin input.btn{
+    margin-top: 15px;
+}
+
+ul{
+    list-style: none;
+}
+#title{
+    color: #9c02a7;
+    float: left;
+    margin-left: 1em;
+}
+
+.logout button{
+    float:right;
+    margin: 1em;
+    width: 4.5em;
+    font-size: 1em;
+    background-color: #00a480
+}
+
+#post_box{
+    width: 100%;
+    height: 4em;
+
+}
+ 
+#submit_btn{
+    width: 4.5em;
+    font-size: 1em;
+    margin: 1em 1em 1em 0em;
+    background-color: #00a480;
+}
+
+.post_date {
+    font-size: .75em;
+}
+
+.post_content {
+    font-size: 1.5em;
+    margin-left: 1em;
+}
+
+.container{
+    clear:both;
+}
+
+.wall_post {
+    background-color: #9c02a7;
+    width: 100%;
+    border-radius: 10px;
+    padding: 1.5%;
+    margin-bottom: 1.5em;
+}

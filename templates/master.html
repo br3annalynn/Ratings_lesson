@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Judgemental Eye: Movie Reviews</title>
+        <link href="/static/css/bootstrap.css" rel="stylesheet">
+        <link href="/static/css/main.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1 id = "title">The Judgemental Eye: Movie Reviews</h1>
+        {% if session.get("user_id") %}
+        <form class="logout" action="{{url_for("logout")}}">
+            <button type="submit"  class="btn btn-lg btn-primary btn-block">Logout</button>
+        </form>
+        {% endif %}
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+    </body>
+</html>
