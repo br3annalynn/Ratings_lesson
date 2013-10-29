@@ -1,0 +1,7 @@
+{% extends 'master.html' %}
+
+    {%block body%}
+        {% for movie in movies %}
+        <h2>{{ movie.name }}, released on {{ movie.released_at }}, <a href="{{movie.imdb_url}}">{{movie.imdb.url}}</a></h2>
+        {% endfor %}
+    {% endblock %}

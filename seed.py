@@ -30,7 +30,7 @@ def load_ratings(session):
     with open('seed_data/u.data') as csvfile:
         rating_info = csv.reader(csvfile, delimiter='\t')
         for row in rating_info:
-            rating = model.Rating(movie_id=row[0], user_id=row[1], rating=row[2])
+            rating = model.Rating(user_id=row[0], movie_id=row[1], rating=row[2])
             session.add(rating)
         session.commit()
 
@@ -38,8 +38,8 @@ def load_ratings(session):
 
 def main(session):
     # You'll call each of the load_* functions with the session as an argument
-    pass
+    load_ratings(s)
 
 if __name__ == "__main__":
-    s= model.connect()#delete this????? ******************************
+    s= model.connect()
     main(s)

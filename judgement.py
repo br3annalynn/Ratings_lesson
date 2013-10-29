@@ -1,19 +1,66 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, session, url_for, flash
 import model
 app = Flask(__name__)
+app.secret_key = "thisisasecret"
+
 
 @app.route("/")
 def index():
-    user_list = model.session.query(model.User).limit(5).all()
-    return render_template("index.html", users=user_list)
+    return render_template("index.html")
 
-@app.route("/process_login")
+@app.route("/", methods=["POST"])
 def process_login():
-    pass
+    submitted_email = request.form.get('email')
+    submitted_password = request.form.get('password')
+    # user_list = model.session.query(model.User).limit(5).all()
+    user_id = model.check_for_user(submitted_email)
+
+
+    if model.login(submitted_email, submitted_password):
+        return redirect(url_for("view_user", user_id=user_id))
+    else:
+        flash("Username or password incorect.")
+        return redirect(url_for("process_login"))
 
 @app.route("/register")
-def register():
+def get_registration_info():
+    return render_template("register.html")
+
+@app.route("/register", methods=["POST"])
+def register_user():
+    submitted_email = request.form.get('email')
+    submitted_password = request.form.get('password')
+    submitted_password_verify = request.form.get('password_verify')
+    submitted_age = request.form.get('age')
+    submitted_gender = request.form.get('gender')
+    submitted_zipcode = request.form.get('zipcode')
+
+    if model.check_for_user(submitted_email):
+        flash("This user already exists.")
+        return redirect(url_for("get_registration_info"))
+
+    elif submitted_password != submitted_password_verify:
+        flash("Passwords do not match")
+        return redirect(url_for("get_registration_info"))
+    else:
+        model.register_user(submitted_email, submitted_password, submitted_age, submitted_gender, submitted_zipcode)
+        flash("You've been added. Please sign-in below.")
+        return redirect(url_for("index"))
+
+@app.route("/user/<user_id>")
+def view_user(user_id):
+    ratings_list= model.get_ratings_by_user_id(user_id)
+    return render_template("view_user.html", user_id=user_id, ratings_list=ratings_list)
+
+@app.route("/movies") #list of all movies
+def movie_list():
     pass
+
+@app.route("/view_movie/<movie_id>")
+def view_movie(movie_id):
+    movie_ratings=model.get_ratings_by_movie_id(movie_id) 
+    return render_template("view_movie.html", movie_ratings=movie_ratings, movie_id=movie_id)
+
 
 if __name__ == "__main__":
     app.run(debug = True)

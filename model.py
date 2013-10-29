@@ -12,6 +12,9 @@ Base = declarative_base()
 Base.query = session.query_property()
 
 ### Class declarations go here
+
+
+
 class User(Base):
     __tablename__ = "users"
 
@@ -41,9 +44,33 @@ class Rating(Base):
     user = relationship("User", backref=backref("ratings", order_by=id))
     movie = relationship("Movie", backref=backref("ratings", order_by=id))
 
-
 ### End class declarations
 
+def check_for_user(email):
+    user = session.query(User).filter_by(email=email).first()
+    if user:
+        return user.id
+    else:
+        return False
+
+
+def register_user(email, password, age, gender, zipcode):
+    user = User(email=email, password=password, age=age, gender=gender, zipcode=zipcode)    
+    session.add(user)
+    session.commit()
+
+def login(email, password):
+    user = session.query(User).filter_by(email=email).one()
+    if user.password == password:
+        return True
+
+def get_ratings_by_user_id(user_id):
+    ratings_list = session.query(Rating).filter_by(user_id=user_id).all()
+    return ratings_list
+
+def get_ratings_by_movie_id(movie_id):
+    movie_ratings_list=session.query(Rating).filter_by(movie_id=movie_id).all()
+    return movie_ratings_list
 
 def main():
     """In case we need this for something"""
