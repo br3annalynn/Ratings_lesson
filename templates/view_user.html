@@ -1,11 +1,10 @@
 {% extends 'master.html' %}
 
     {%block body%}
-        <h1>This is User {{ user_id}}'s page</h1>
-        <h2>These are all of User {{user_id}}'s movie reviews:</h2>
+        <h2>User {{user_id}} has reviewed these movies:</h2>
         <ul>
             {% for one_rating in ratings_list %}
-                <li><a href="/view_movie/{{one_rating.movie_id}}"> {{one_rating.movie.name}}</a> was rated {{one_rating.rating}}</li>
+                <li><a href="/view_movie/{{one_rating.movie_id}}"> <i>{{one_rating.movie.name}}</i></a> was rated {{one_rating.rating}}.</li>
             {% endfor %}
         </ul>
 

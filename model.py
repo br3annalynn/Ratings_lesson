@@ -72,6 +72,14 @@ def get_ratings_by_movie_id(movie_id):
     movie_ratings_list=session.query(Rating).filter_by(movie_id=movie_id).all()
     return movie_ratings_list
 
+def get_movie_by_id(movie_id):
+    movie = session.query(Movie).filter_by(id=movie_id).one()
+    return movie
+
+def get_all_movies():
+    movies = session.query(Movie).all()
+    return movies
+
 def main():
     """In case we need this for something"""
     pass

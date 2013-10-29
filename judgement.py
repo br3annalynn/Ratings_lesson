@@ -13,11 +13,11 @@ def process_login():
     submitted_email = request.form.get('email')
     submitted_password = request.form.get('password')
     # user_list = model.session.query(model.User).limit(5).all()
-    user_id = model.check_for_user(submitted_email)
+    # user_id = model.check_for_user(submitted_email)
 
 
     if model.login(submitted_email, submitted_password):
-        return redirect(url_for("view_user", user_id=user_id))
+        return render_template("main.html")
     else:
         flash("Username or password incorect.")
         return redirect(url_for("process_login"))
@@ -52,14 +52,16 @@ def view_user(user_id):
     ratings_list= model.get_ratings_by_user_id(user_id)
     return render_template("view_user.html", user_id=user_id, ratings_list=ratings_list)
 
-@app.route("/movies") #list of all movies
+@app.route("/movie_list") 
 def movie_list():
-    pass
+    movie_list = model.get_all_movies()
+    return render_template("movie_list.html", movies=movie_list)
 
 @app.route("/view_movie/<movie_id>")
 def view_movie(movie_id):
     movie_ratings=model.get_ratings_by_movie_id(movie_id) 
-    return render_template("view_movie.html", movie_ratings=movie_ratings, movie_id=movie_id)
+    movie = model.get_movie_by_id(movie_id)
+    return render_template("view_movie.html", movie_ratings=movie_ratings, movie=movie)
 
 
 if __name__ == "__main__":

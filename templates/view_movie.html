@@ -1,7 +1,7 @@
 {% extends 'master.html' %}
 
     {%block body%}
-        <h1>This is all of the ratings for {{ movie_id }}</h1>
+        <h1>These are all of the ratings for <br><i>{{ movie.name }}: </i></h1>
         <ul>
             {% for one_rating in movie_ratings %}
                 <li><a href="/user/{{one_rating.user_id}}">User # {{one_rating.user_id}}</a> gave this movie a {{one_rating.rating}}.</li>
