@@ -1,6 +1,7 @@
 body {
-    background-color: #2219b2;
-    color: #ffffff;
+    background-color: #d3ddec;
+    color: #2219b2;
+    font-family: helvetica;
 }
 
 form.signin {
