@@ -62,7 +62,7 @@ def register_user(email, password, age, gender, zipcode):
 def login(email, password):
     user = session.query(User).filter_by(email=email).one()
     if user.password == password:
-        return True
+        return user.id
 
 def get_ratings_by_user_id(user_id):
     ratings_list = session.query(Rating).filter_by(user_id=user_id).all()
@@ -79,6 +79,10 @@ def get_movie_by_id(movie_id):
 def get_all_movies():
     movies = session.query(Movie).all()
     return movies
+
+def get_all_users():
+    user_list = session.query(User).limit(100).all()
+    return user_list
 
 def main():
     """In case we need this for something"""

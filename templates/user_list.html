@@ -1,9 +1,14 @@
 {% extends 'master.html' %}
 
     {%block body%}
+        <ul>
         {% for user in users %}
-        <h2>User {{ user.id }}, age {{ user.age }} had {{user.ratings|length}} ratings</h2>
+        <li><a href="/user/{{user.id}}">User {{ user.id }}, age {{ user.age }} had {{user.ratings|length}} ratings</li></a>
         {% endfor %}
+        </ul>
+
+        
+        <a href="/clear">Log out</a>
     {% endblock %}
 
 

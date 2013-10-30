@@ -2,8 +2,10 @@
 
     {%block body%}
     <a href="/movie_list"><h1>See all movies</h1></a>
-    <h1>See all users who have rated movies</h1>
-    <h1>My Own ratings</h1>
-    <h1>Log out</h1>
+    <a href="/user_list"><h1>See all users who have rated movies</h1></a>
+    <a href="/user/{{user_id}}"><h1>My Own ratings</h1></a>
+
+
+    <a href="/clear">Log out</a>
 
     {%endblock%}

@@ -6,18 +6,20 @@ app.secret_key = "thisisasecret"
 
 @app.route("/")
 def index():
+    session_user_id = session.get('session_user_id')
+    if session_user_id:
+        return render_template("main.html", user_id = session_user_id)
     return render_template("index.html")
 
 @app.route("/", methods=["POST"])
 def process_login():
     submitted_email = request.form.get('email')
     submitted_password = request.form.get('password')
-    # user_list = model.session.query(model.User).limit(5).all()
-    # user_id = model.check_for_user(submitted_email)
-
-
-    if model.login(submitted_email, submitted_password):
-        return render_template("main.html")
+    
+    user_id = model.login(submitted_email, submitted_password)
+    if user_id:
+        session['session_user_id'] = user_id 
+        return render_template("main.html", user_id=user_id)
     else:
         flash("Username or password incorect.")
         return redirect(url_for("process_login"))
@@ -57,11 +59,21 @@ def movie_list():
     movie_list = model.get_all_movies()
     return render_template("movie_list.html", movies=movie_list)
 
+@app.route("/user_list")
+def user_list():
+    user_list = model.get_all_users()
+    return render_template("user_list.html", users=user_list)
+
 @app.route("/view_movie/<movie_id>")
 def view_movie(movie_id):
     movie_ratings=model.get_ratings_by_movie_id(movie_id) 
     movie = model.get_movie_by_id(movie_id)
     return render_template("view_movie.html", movie_ratings=movie_ratings, movie=movie)
+
+@app.route("/clear")
+def clear():
+    session.clear()
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
