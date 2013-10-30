@@ -116,8 +116,12 @@ def get_all_users():
     return user_list
 
 def add_rating(movie_id, user_id, rating):
-    rating = Rating(movie_id=movie_id, user_id=user_id, rating=rating)
-    session.add(rating)
+    existing_rating = session.query(Rating).filter_by(user_id=user_id, movie_id=movie_id).one()
+    if not existing_rating: 
+        current_rating = Rating(movie_id=movie_id, user_id=user_id, rating=rating)
+        session.add(current_rating)
+    else:
+        existing_rating.rating = rating
     session.commit()
 
 def get_user_by_id(user_id):

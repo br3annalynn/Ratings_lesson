@@ -79,6 +79,8 @@ def view_movie(movie_id):
     if not user_rating:
         user = model.get_user_by_id(session_user_id)
         prediction = user.predict_rating(movie)
+        if prediction:
+            prediction = round(prediction, 2)
     return render_template("view_movie.html", movie_ratings=movie_ratings, movie=movie, session_user_id= session_user_id, prediction=prediction, user_rating=user_rating)
 
 @app.route("/view_movie/<movie_id>", methods=["POST"])
