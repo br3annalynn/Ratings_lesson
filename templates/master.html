@@ -5,14 +5,25 @@
         <link href="/static/css/main.css" rel="stylesheet">
     </head>
     <body>
+        <div>
+
+            {% if session.get("session_user_id") %}
+                <div class="nav"><a href="/clear">Logout</a></div>
+                <div class="nav"><a href="/user/{{session.get('session_user_id')}}">My Reviews</a></div>
+                <div class="nav"><a href="/">Home</a></div>
+            {% endif %}
+
+            <div class="nav"><a href="/movie_list">All movies</a></div>
+            <div class = "nav"><a href="/user_list">All users</a></div>
+
+        </div>
+
         <h1 id = "title">The Judgemental Eye: Movie Reviews</h1>
-        {% if session.get("user_id") %}
-        <form class="logout" action="{{url_for("logout")}}">
-            <button type="submit"  class="btn btn-lg btn-primary btn-block">Logout</button>
-        </form>
-        {% endif %}
+
         <div class="container">
-            {% block body %}{% endblock %}
+            {% block body %}
+            
+            {% endblock %}
 
         </div>
     </body>
