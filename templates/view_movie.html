@@ -1,12 +1,23 @@
 {% extends 'master.html' %}
 
     {%block body%}
-        <h1>These are all of the ratings for <br><i>{{ movie.name }}: </i></h1>
+        <h1>Ratings for <i>{{ movie.name }} </i></h1>
+
+        <h2>Add your review of this movie:</h2>
+        {% if session_user_id %}
+            <form action="/view_movie/{{movie.id}}" method="POST">
+                <input type="text" class="form-control" placeholder="Rating (1-5)" name="new_rating">
+                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit">
+            </form>
+
+        {% endif %}
         <ul>
             {% for one_rating in movie_ratings %}
                 <li><a href="/user/{{one_rating.user_id}}">User # {{one_rating.user_id}}</a> gave this movie a {{one_rating.rating}}.</li>
             {% endfor %}
         </ul>
+
+
 
         
         <a href="/clear">Log out</a>

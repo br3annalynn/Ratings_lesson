@@ -84,6 +84,11 @@ def get_all_users():
     user_list = session.query(User).limit(100).all()
     return user_list
 
+def add_rating(movie_id, user_id, rating):
+    rating = Rating(movie_id=movie_id, user_id=user_id, rating=rating)
+    session.add(rating)
+    session.commit()
+
 def main():
     """In case we need this for something"""
     pass

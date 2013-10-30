@@ -68,7 +68,17 @@ def user_list():
 def view_movie(movie_id):
     movie_ratings=model.get_ratings_by_movie_id(movie_id) 
     movie = model.get_movie_by_id(movie_id)
-    return render_template("view_movie.html", movie_ratings=movie_ratings, movie=movie)
+    session_user_id = session.get('session_user_id') 
+    return render_template("view_movie.html", movie_ratings=movie_ratings, movie=movie, session_user_id= session_user_id)
+
+@app.route("/view_movie/<movie_id>", methods=["POST"])
+def add_rating(movie_id):
+    user_id = session.get("session_user_id")
+    rating = request.form.get("new_rating")
+
+    model.add_rating(movie_id, user_id, rating)
+    return redirect(url_for("view_movie", movie_id=movie_id))
+
 
 @app.route("/clear")
 def clear():
