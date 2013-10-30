@@ -4,6 +4,7 @@ from sqlalchemy import Column, Integer, String, Date
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
+from math import sqrt
 
 engine = create_engine("sqlite:///ratings.db", echo=False)
 session = scoped_session(sessionmaker(bind=engine, autocommit = False, autoflush = False))
@@ -24,6 +25,23 @@ class User(Base):
     age = Column(Integer, nullable=True)
     gender = Column(String, nullable=True)
     zipcode = Column(String(15), nullable=True)
+
+    def similarity(self, other):
+        user_ratings = {}
+        paired_ratings = []
+        for s_rating in self.ratings:
+            user_ratings[s_rating.movie_id] = s_rating
+
+        for o_rating in other.ratings:
+            u_r = user_ratings.get(o_rating.movie_id)
+            if u_r:
+                paired_ratings.append( (u_r.rating, o_rating.rating))
+
+        if paired_ratings:
+            return pearson(paired_ratings)
+        else:
+            return 0.0
+
 
 class Movie(Base):
     __tablename__ = "movies"
@@ -93,7 +111,46 @@ def get_user_by_id(user_id):
     user = session.query(User).filter_by(id=user_id).one()
     return user
 
+
+"""
+Deal with this later?
+def find_rating_pairs(name, user_id):
+    movie = session.query(Movie).filter_by(name=name).one()
+    user = session.query(User).get(user_id) #user we want the prediction for
+    user_ratings = user.ratings #list of all the rating objects for the user in question
+
+    other_ratings = session.query(Rating).filter_by(movie_id=movie.id).all() # all ratings for movie in question by other users
+    other_users = []
+    for rating in other_ratings:
+        other_users.append(rating.user) #creates list of all users who have rated the movie in question
+
+"""
+
+
+
+def pearson(pairs):
+    # Takes in a list of pairwise ratings and produces a pearson similarity
+    series_1 = [float(pair[0]) for pair in pairs]
+    series_2 = [float(pair[1]) for pair in pairs]
+ 
+    sum1 = sum(series_1)
+    sum2 = sum(series_2)
+ 
+    squares1 = sum([ n*n for n in series_1 ])
+    squares2 = sum([ n*n for n in series_2 ])
+ 
+    product_sum = sum([ n * m for n,m in pairs ])
+ 
+    size = len(pairs)
+ 
+    numerator = product_sum - ((sum1 * sum2)/size)
+    denominator = sqrt((squares1 - (sum1*sum1) / size) * (squares2 - (sum2*sum2)/size))
+ 
+    if denominator == 0:
+        return 0
     
+    return numerator/denominator
+
 def main():
     """In case we need this for something"""
     pass
