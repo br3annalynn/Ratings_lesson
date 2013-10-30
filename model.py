@@ -89,6 +89,11 @@ def add_rating(movie_id, user_id, rating):
     session.add(rating)
     session.commit()
 
+def get_user_by_id(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+    
 def main():
     """In case we need this for something"""
     pass

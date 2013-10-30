@@ -8,7 +8,8 @@ app.secret_key = "thisisasecret"
 def index():
     session_user_id = session.get('session_user_id')
     if session_user_id:
-        return render_template("main.html", user_id = session_user_id)
+        user = model.get_user_by_id(session_user_id)
+        return render_template("main.html", user_id = session_user_id, user = user)
     return render_template("index.html")
 
 @app.route("/", methods=["POST"])
@@ -19,7 +20,7 @@ def process_login():
     user_id = model.login(submitted_email, submitted_password)
     if user_id:
         session['session_user_id'] = user_id 
-        return render_template("main.html", user_id=user_id)
+        return redirect(url_for("index"))
     else:
         flash("Username or password incorect.")
         return redirect(url_for("process_login"))

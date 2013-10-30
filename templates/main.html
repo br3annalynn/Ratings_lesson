@@ -1,6 +1,7 @@
 {% extends 'master.html' %}
 
     {%block body%}
+    <h2> Welcome, {{user.email}}. <br> You are now signed in. </h2>
     <a href="/movie_list"><h1>See all movies</h1></a>
     <a href="/user_list"><h1>See all users who have rated movies</h1></a>
     <a href="/user/{{user_id}}"><h1>My Own ratings</h1></a>
