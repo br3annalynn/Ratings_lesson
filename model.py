@@ -45,16 +45,14 @@ class User(Base):
 
     def predict_rating(self, movie):
         other_ratings = movie.ratings # a list of ratings objects for a specific movie(the movie passed into the function) by other users
-        other_users = [ r.user for r in other_ratings ] # a list of users who gave a rating for that movie
-        similarities = [ (self.similarity(other_user), other_user) for other_user in other_users] # a list of tuples (score, user(object)) 
+        similarities = [ (self.similarity(r.user), r) for r in other_ratings] # a list of tuples (score, rating(object)) 
         similarities.sort(reverse=True) #sorts tuples by first element, the score
-        top_user = similarities[0] #a tuple with the highest score as the first element
-        matched_rating = None
-        for rating in other_ratings: 
-                if rating.user_id == top_user[1].id: #finds the user who matched the highest
-                    matched_rating = rating 
-                    break
-        return matched_rating.rating * top_user[0]
+        similarities = [sim for sim in similarities if sim[0] > 0]
+        if not similarities:
+            return None
+        numerator = sum([r.rating * similarity for similarity, r in similarities])
+        denominator = sum([ similarity[0] for similarity in similarities])
+        return numerator/denominator
 
 
 
