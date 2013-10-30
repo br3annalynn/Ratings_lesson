@@ -2,8 +2,15 @@
 
     {%block body%}
         <h1>Ratings for <i>{{ movie.name }} </i></h1>
+        {% if prediction %}
+            <h3>We predict you will rate this movie {{ prediction }}.</h3>
+        {% endif %}
 
-        <h2>Add your review of this movie:</h2>
+        {% if user_rating %}
+            <h3>You rated this movie: {{ user_rating }}.</h3>
+        {% endif %}
+
+        <h2>Add/update your review of this movie:</h2>
         {% if session_user_id %}
             <form action="/view_movie/{{movie.id}}" method="POST">
                 <input type="text" class="form-control" placeholder="Rating (1-5)" name="new_rating">

@@ -67,10 +67,19 @@ def user_list():
 
 @app.route("/view_movie/<movie_id>")
 def view_movie(movie_id):
-    movie_ratings=model.get_ratings_by_movie_id(movie_id) 
+    movie_ratings=model.get_ratings_by_movie_id(movie_id) #list of rating objects
     movie = model.get_movie_by_id(movie_id)
-    session_user_id = session.get('session_user_id') 
-    return render_template("view_movie.html", movie_ratings=movie_ratings, movie=movie, session_user_id= session_user_id)
+    session_user_id = session.get('session_user_id')
+    user_rating = None
+    prediction = None
+    if session_user_id:
+        for rating in movie_ratings:
+            if rating.user_id == session_user_id:
+                user_rating = rating.rating #user rating is a number 1-5
+    if not user_rating:
+        user = model.get_user_by_id(session_user_id)
+        prediction = user.predict_rating(movie)
+    return render_template("view_movie.html", movie_ratings=movie_ratings, movie=movie, session_user_id= session_user_id, prediction=prediction, user_rating=user_rating)
 
 @app.route("/view_movie/<movie_id>", methods=["POST"])
 def add_rating(movie_id):
