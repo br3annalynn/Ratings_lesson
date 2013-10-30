@@ -43,6 +43,21 @@ class User(Base):
             return 0.0
 
 
+    def predict_rating(self, movie):
+        other_ratings = movie.ratings # a list of ratings objects for a specific movie(the movie passed into the function) by other users
+        other_users = [ r.user for r in other_ratings ] # a list of users who gave a rating for that movie
+        similarities = [ (self.similarity(other_user), other_user) for other_user in other_users] # a list of tuples (score, user(object)) 
+        similarities.sort(reverse=True) #sorts tuples by first element, the score
+        top_user = similarities[0] #a tuple with the highest score as the first element
+        matched_rating = None
+        for rating in other_ratings: 
+                if rating.user_id == top_user[1].id: #finds the user who matched the highest
+                    matched_rating = rating 
+                    break
+        return matched_rating.rating * top_user[0]
+
+
+
 class Movie(Base):
     __tablename__ = "movies"
 
@@ -110,21 +125,6 @@ def add_rating(movie_id, user_id, rating):
 def get_user_by_id(user_id):
     user = session.query(User).filter_by(id=user_id).one()
     return user
-
-
-"""
-Deal with this later?
-def find_rating_pairs(name, user_id):
-    movie = session.query(Movie).filter_by(name=name).one()
-    user = session.query(User).get(user_id) #user we want the prediction for
-    user_ratings = user.ratings #list of all the rating objects for the user in question
-
-    other_ratings = session.query(Rating).filter_by(movie_id=movie.id).all() # all ratings for movie in question by other users
-    other_users = []
-    for rating in other_ratings:
-        other_users.append(rating.user) #creates list of all users who have rated the movie in question
-
-"""
 
 
 
