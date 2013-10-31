@@ -21,6 +21,7 @@
             </form>
 
         {% endif %}
+        <h2>The average user rating for this movie is: {{average}}.</h2>
         <ul>
             {% for one_rating in movie_ratings %}
                 <li><a href="/user/{{one_rating.user_id}}">User # {{one_rating.user_id}}</a> gave this movie a {{one_rating.rating}}.</li>

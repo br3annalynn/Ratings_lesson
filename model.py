@@ -148,6 +148,13 @@ def get_user_by_id(user_id):
     user = session.query(User).filter_by(id=user_id).one()
     return user
 
+def average_ratings(ratings_list):
+    ratings_sum = 0
+    for rating in ratings_list:
+        ratings_sum += rating.rating
+    average_ratings = ratings_sum / len(ratings_list)
+    return average_ratings
+
 
 
 def pearson(pairs):

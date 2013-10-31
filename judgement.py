@@ -68,6 +68,7 @@ def user_list():
 @app.route("/view_movie/<movie_id>")
 def view_movie(movie_id):
     movie_ratings=model.get_ratings_by_movie_id(movie_id) #list of rating objects
+
     movie = model.get_movie_by_id(movie_id)
     session_user_id = session.get('session_user_id')
     user_rating = None
@@ -75,6 +76,7 @@ def view_movie(movie_id):
     eye_rating = None
     eye_prediction = None
     beratement=None
+    average = model.average_ratings(movie_ratings)
     if session_user_id:
         user_rating, user_prediction = model.get_rating(session_user_id, movie_id, movie_ratings)
         eye_rating, eye_prediction = model.get_rating(1, movie_id, movie_ratings) #make eye_id
@@ -95,7 +97,7 @@ def view_movie(movie_id):
 
             beratement = messages[int(difference)]
 
-    return render_template("view_movie.html", movie_ratings=movie_ratings, movie=movie, session_user_id= session_user_id, prediction=user_prediction, user_rating=user_rating, beratement=beratement)
+    return render_template("view_movie.html", movie_ratings=movie_ratings, movie=movie, session_user_id= session_user_id, prediction=user_prediction, user_rating=user_rating, beratement=beratement, average=average)
 
 @app.route("/view_movie/<movie_id>", methods=["POST"])
 def add_rating(movie_id):
@@ -110,6 +112,9 @@ def add_rating(movie_id):
 def clear():
     session.clear()
     return redirect(url_for("index"))
+
+
+
 
 
 if __name__ == "__main__":
