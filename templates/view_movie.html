@@ -8,10 +8,13 @@
 
         {% if user_rating %}
             <h3>You rated this movie: {{ user_rating }}.</h3>
+            <h3>The judgemental eye says, "{{beratement}}"</h3>
         {% endif %}
 
-        <h2>Add/update your review of this movie:</h2>
         {% if session_user_id %}
+
+            <h2>Add/update your review of this movie:</h2>
+
             <form action="/view_movie/{{movie.id}}" method="POST">
                 <input type="text" class="form-control" placeholder="Rating (1-5)" name="new_rating">
                 <input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit">

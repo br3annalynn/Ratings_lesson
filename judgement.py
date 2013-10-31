@@ -71,17 +71,31 @@ def view_movie(movie_id):
     movie = model.get_movie_by_id(movie_id)
     session_user_id = session.get('session_user_id')
     user_rating = None
-    prediction = None
+    user_prediction = None
+    eye_rating = None
+    eye_prediction = None
+    beratement=None
     if session_user_id:
-        for rating in movie_ratings:
-            if rating.user_id == session_user_id:
-                user_rating = rating.rating #user rating is a number 1-5
-    if not user_rating:
-        user = model.get_user_by_id(session_user_id)
-        prediction = user.predict_rating(movie)
-        if prediction:
-            prediction = round(prediction, 2)
-    return render_template("view_movie.html", movie_ratings=movie_ratings, movie=movie, session_user_id= session_user_id, prediction=prediction, user_rating=user_rating)
+        user_rating, user_prediction = model.get_rating(session_user_id, movie_id, movie_ratings)
+        eye_rating, eye_prediction = model.get_rating(1, movie_id, movie_ratings) #make eye_id
+        if not eye_rating:
+            eye_judgement = eye_prediction
+        else: 
+            eye_judgement = eye_rating
+        if not user_rating:
+            difference = None
+        else:
+            user_judgement = user_rating
+            difference = abs(eye_judgement - user_judgement)
+
+            messages = [ "I suppose you don't have such bad taste after all.",
+                 "I regret every decision that I've ever made that has brought me to listen to your opinion.",
+                 "Words fail me, as your taste in movies has clearly failed you.",
+                 "That movie is great. For a clown to watch. Idiot.", "THE WORST BERATEMENT."]
+
+            beratement = messages[int(difference)]
+
+    return render_template("view_movie.html", movie_ratings=movie_ratings, movie=movie, session_user_id= session_user_id, prediction=user_prediction, user_rating=user_rating, beratement=beratement)
 
 @app.route("/view_movie/<movie_id>", methods=["POST"])
 def add_rating(movie_id):

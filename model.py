@@ -44,9 +44,9 @@ class User(Base):
 
 
     def predict_rating(self, movie):
-        other_ratings = movie.ratings # a list of ratings objects for a specific movie(the movie passed into the function) by other users
-        similarities = [ (self.similarity(r.user), r) for r in other_ratings] # a list of tuples (score, rating(object)) 
-        similarities.sort(reverse=True) #sorts tuples by first element, the score
+        other_ratings = movie.ratings
+        similarities = [ (self.similarity(r.user), r) for r in other_ratings] 
+        similarities.sort(reverse=True) 
         similarities = [sim for sim in similarities if sim[0] > 0]
         if not similarities:
             return None
@@ -115,8 +115,28 @@ def get_all_users():
     user_list = session.query(User).limit(100).all()
     return user_list
 
+def get_rating(user_id, movie_id, movie_ratings):
+
+    user_rating = None
+    prediction = None
+    movie = get_movie_by_id(movie_id)
+    
+    for rating in movie_ratings:
+        if rating.user_id == user_id:
+            user_rating = rating.rating #user rating is a number 1-5
+
+    if not user_rating:
+        user = get_user_by_id(user_id)
+        prediction = user.predict_rating(movie)
+        if prediction:
+            prediction = round(prediction, 2)
+
+    return (user_rating, prediction)
+
+
+
 def add_rating(movie_id, user_id, rating):
-    existing_rating = session.query(Rating).filter_by(user_id=user_id, movie_id=movie_id).one()
+    existing_rating = session.query(Rating).filter_by(user_id=user_id, movie_id=movie_id).first()
     if not existing_rating: 
         current_rating = Rating(movie_id=movie_id, user_id=user_id, rating=rating)
         session.add(current_rating)
