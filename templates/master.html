@@ -5,26 +5,39 @@
         <link href="/static/css/main.css" rel="stylesheet">
     </head>
     <body>
-        <div>
 
+        <div id = "big_container">
             {% if session.get("session_user_id") %}
-                <div class="nav"><a href="/clear">Logout</a></div>
-                <div class="nav"><a href="/user/{{session.get('session_user_id')}}">My Reviews</a></div>
-                <div class="nav"><a href="/">Home</a></div>
+                <div id = "logged_in_nav_bar">
+                        <div class="nav">
+                            <a href="/clear">Logout</a>
+                        </div>
+                        <div class="nav">
+                            <a href="/user/{{session.get('session_user_id')}}">My Reviews</a>
+                        </div>
+                        <div class="nav">
+                            <a href="/">Home</a>
+                        </div>
+
+                        <div class="nav">
+                            <a href="/movie_list">All movies</a>
+                        </div>
+                        <div class = "nav">
+                            <a href="/user_list">All users</a>
+                        </div>
+                </div>
             {% endif %}
+            <div id = "title_bar">
+                <h1>The Judgemental Eye: Movie Reviews</h1>
+            </div>
 
-            <div class="nav"><a href="/movie_list">All movies</a></div>
-            <div class = "nav"><a href="/user_list">All users</a></div>
-
-        </div>
-
-        <h1 id = "title">The Judgemental Eye: Movie Reviews</h1>
-
-        <div class="container">
-            {% block body %}
-            
-            {% endblock %}
+            <div id="content">
+                {% block body %}
+                
+                {% endblock %}
+            </div>
 
         </div>
+
     </body>
 </html>

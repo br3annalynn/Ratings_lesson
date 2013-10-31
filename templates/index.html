@@ -1,6 +1,7 @@
 {% extends 'master.html' %}
 
     {%block body%}
+
     <form class="signin" action="{{url_for("process_login")}}" method='POST'>
         <h2 class="signin-heading">Please sign in</h2>
     
@@ -13,4 +14,10 @@
         Not a user? <a href="{{ url_for("get_registration_info") }}">Register</a> a new account
         <input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit">
     </form>
+
+         <p>Don't have an account? You can still view the movies and ratings:</p>
+        <ul>
+            <li><a href="/movie_list">All movies</a></li>
+            <li><a href="/user_list">All users</a></li>
+        </ul>
     {% endblock %}

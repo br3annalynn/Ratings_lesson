@@ -91,9 +91,9 @@ def view_movie(movie_id):
             difference = abs(eye_judgement - user_judgement)
 
             messages = [ "I suppose you don't have such bad taste after all.",
-                 "I regret every decision that I've ever made that has brought me to listen to your opinion.",
+                 "Why would anyone ever listen to your opinion.",
                  "Words fail me, as your taste in movies has clearly failed you.",
-                 "That movie is great. For a clown to watch. Idiot.", "THE WORST BERATEMENT."]
+                 "That movie is great. For a clown to watch. Idiot.", "WHAT?!?! How could you possibly think that about this movie?."]
 
             beratement = messages[int(difference)]
 

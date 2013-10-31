@@ -1,10 +1,21 @@
 {% extends 'master.html' %}
 
     {%block body%}
-    <h2> Welcome, {{user.email}}. <br> You are now signed in. </h2>
-    <a href="/movie_list"><h1>See all movies</h1></a>
-    <a href="/user_list"><h1>See all users who have rated movies</h1></a>
-    <a href="/user/{{user_id}}"><h1>My Own ratings</h1></a>
+    <h3> Welcome, {{user.email}}. <br> You are now signed in. </h3>
+    <div id="browse_boxes">
+        <div class="browse_box" id="movies">
+            <a href="/movie_list"><h3>See all movies</h3></a>
+            <a href="/movie_list"><h3><img src="/static/movie2.jpg" width="100px"  height="130px"></h3></a>
+        </div> 
+         <div class="browse_box" id="users">
+            <a href="/user_list"><h3>See all users</h3></a>
+            <a href="/user_list"><h3><img src="/static/people.jpg" width="100px"  height="130px"></h3></a>
+        </div>
+        <div class="browse_box" id="person">
+            <a href="/user/{{user_id}}"><h3>See my ratings</h3></a>
+            <a href="/user/{{user_id}}"><h3><img src="/static/thumbs.jpg" width="100px" height="130px"></h3></a>
+        </div>
+    </div>
 
 
 

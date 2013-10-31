@@ -1,33 +1,35 @@
 {% extends 'master.html' %}
 
     {%block body%}
-        <h1>Ratings for <i>{{ movie.name }} </i></h1>
+        <h1  id="movie_title" ><i>{{ movie.name }} </i></h1>
         {% if prediction %}
             <h3>We predict you will rate this movie {{ prediction }}.</h3>
         {% endif %}
 
+        <h3>The average user rating: {{average}}.</h3>
+
         {% if user_rating %}
             <h3>You rated this movie: {{ user_rating }}.</h3>
-            <h3>The judgemental eye says, "{{beratement}}"</h3>
         {% endif %}
 
         {% if session_user_id %}
 
-            <h2>Add/update your review of this movie:</h2>
+            <h4>Add/update your review of this movie:</h4>
 
             <form action="/view_movie/{{movie.id}}" method="POST">
-                <input type="text" class="form-control" placeholder="Rating (1-5)" name="new_rating">
-                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit">
+                <input type="radio" name="new_rating" value="1">1
+                <input type="radio" name="new_rating" value="2">2
+                <input type="radio" name="new_rating" value="3">3
+                <input type="radio" name="new_rating" value="4">4
+                <input type="radio" name="new_rating" value="5">5
+                <input type="submit" id="submit_rating" class="btn btn-lg btn-primary btn-block" value="Submit">
             </form>
 
         {% endif %}
-        <h2>The average user rating for this movie is: {{average}}.</h2>
-        <ul>
-            {% for one_rating in movie_ratings %}
-                <li><a href="/user/{{one_rating.user_id}}">User # {{one_rating.user_id}}</a> gave this movie a {{one_rating.rating}}.</li>
-            {% endfor %}
-        </ul>
-
+        
+        {% if user_rating %}
+            <h4 id="judgement">The judgemental eye says, "{{beratement}}"</h4>
+        {% endif %}
 
 
         

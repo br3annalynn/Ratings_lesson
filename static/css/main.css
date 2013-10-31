@@ -1,6 +1,6 @@
 body {
-    background-color: #d3ddec;
-    color: #2219b2;
+    background-image: url("/static/eye.jpg");
+    color: black;
     font-family: helvetica;
 }
 
@@ -20,11 +20,7 @@ form.signin input.btn{
 ul{
     list-style: none;
 }
-#title{
-    color: #9c02a7;
-    float: left;
-    margin-left: 1em;
-}
+
 
 .logout button{
     float:right;
@@ -39,13 +35,7 @@ ul{
     height: 4em;
 
 }
- 
-#submit_btn{
-    width: 4.5em;
-    font-size: 1em;
-    margin: 1em 1em 1em 0em;
-    background-color: #00a480;
-}
+
 
 .post_date {
     font-size: .75em;
@@ -68,8 +58,71 @@ ul{
     margin-bottom: 1.5em;
 }
 
+
+
+#submit_rating{
+    width: 70px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1em
+
+}
+
+#big_container {
+    position: relative;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    background-color: rgba(137,144,150, .7);    
+}
+
+#logged_in_nav_bar{
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    text-align: center;
+}
+
+
 .nav {
     float:left;
-    margin: 10px;
+    width:20%;
+}
+
+#title_bar{
+    text-align: center;
+    width: 100%;
+    color: rgb(255, 100, 10);
+}
+
+#content{
+    text-align: center;
+    overflow: hidden;
+}
+
+ul {
+    padding-left:0;
+}​
+
+a:link{
+    color: #ff5400;
+}
+.browse_box{
+    margin: 1%;
+    width: 29%;
+    float: left;
+}
+
+#browse_boxes{
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+#movie_title{
+    font-size: 4em;
 }
 
